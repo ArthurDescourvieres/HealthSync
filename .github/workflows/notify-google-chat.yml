@@ -1,0 +1,26 @@
+name: Notifier Google Chat
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  notifier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Poster le résumé du push dans Google Chat
+        env:
+          WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          AUTEUR: ${{ github.actor }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          COMPARE_URL: ${{ github.event.compare }}
+          REPO: ${{ github.repository }}
+        run: |
+          TITRE=$(printf '%s' "$MESSAGE" | head -n1)
+          TEXTE=$(printf '🔔 *%s* vient de pousser sur *develop*\n%s\n<%s|Voir les changements — %s>' \
+            "$AUTEUR" "$TITRE" "$COMPARE_URL" "$REPO")
+          PAYLOAD=$(jq -n --arg text "$TEXTE" '{text: $text}')
+          curl -sS --fail -X POST \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" \
+            "$WEBHOOK_URL"
