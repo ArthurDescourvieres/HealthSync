@@ -1,12 +1,8 @@
-import { app } from './app.js'
+import { chargerEnv } from './chargerEnv.js'
 
-// Le .env n'est pas versionné : absent au clone ou en prod, on tombe alors
-// sur les variables d'environnement du système. On ne veut pas planter pour ça.
-try {
-  process.loadEnvFile()
-} catch {
-  // pas de fichier .env, rien à charger
-}
+chargerEnv()
+
+const { app } = await import('./app.js')
 
 const port = Number(process.env.PORT ?? 3000)
 
