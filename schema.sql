@@ -1,5 +1,5 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;   
-CREATE EXTENSION IF NOT EXISTS btree_gist; -- pour utiliser des contraintes de chevauchement
+CREATE EXTENSION IF NOT EXISTS btree_gist; 
 
 
 CREATE TYPE rdv_statut AS ENUM ('confirme', 'annule');
@@ -25,7 +25,6 @@ CREATE TABLE rendez_vous (
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
     CHECK (fin > debut),
 
--- contrainte pour éviter date qui se chevauchent
     CONSTRAINT no_double_booking
         EXCLUDE USING gist (
             medecin_id WITH =,

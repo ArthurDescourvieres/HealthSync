@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package healthsync.patients;
+
+service PatientService {
+      rpc VerifierExistence (VerifierExistenceRequest) returns (VerifierExistenceResponse);
+}
+
+message VerifierExistenceRequest {
+      string patient_id = 1;
+}
+
+message VerifierExistenceResponse {
+      bool existe = 1;
+}

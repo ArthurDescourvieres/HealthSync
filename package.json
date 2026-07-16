@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "tsx watch api/src/server.ts",
+    "dev:grpc-stub": "tsx watch grpc-service/src/serveurPatientsStub.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest"
