@@ -6,7 +6,15 @@ CREATE TYPE rdv_statut AS ENUM ('confirme', 'annule');
 
 
 CREATE TABLE patients (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nom               TEXT NOT NULL,
+    prenom            TEXT NOT NULL,
+    email             TEXT NOT NULL UNIQUE,
+    telephone         TEXT NOT NULL,
+    date_naissance    DATE NOT NULL,
+    mot_de_passe_hash TEXT NOT NULL,
+    role              TEXT NOT NULL DEFAULT 'patient' CHECK (role = 'patient'),
+    created_at        TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE TABLE medecins (
